@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+
+        <!-- Título -->
+        <TextView
+            style=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tus hábitos ecológicos" />
+
+
+        <!-- Descripción -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Marca las acciones ecológicas que realizas en tu día a día. Estos hábitos contribuyen significativamente al cuidado del medio ambiente."
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp" />
+
+
+        <!-- Imagen decorativa -->
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Ilustración de hábitos ecológicos"
+            android:layout_marginBottom="16dp" />
+
+
+        <!-- CheckBoxes -->
+        <CheckBox
+            android:id="@+id/cb_bolsa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uso de bolsas reutilizables" />
+
+
+        <CheckBox
+            android:id="@+id/cb_botella"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Botella de agua reutilizable" />
+
+
+        <CheckBox
+            android:id="@+id/cb_reciclaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clasificación de residuos" />
+
+
+        <!-- Botones -->
+        <Button
+            android:id="@+id/btn_guardar_habitos"
+            style=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar hábitos" />
+
+
+        <Button
+            android:id="@+id/btn_volver"
+            style=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volver al menú" />
+
+
+    </LinearLayout>
+</ScrollView>

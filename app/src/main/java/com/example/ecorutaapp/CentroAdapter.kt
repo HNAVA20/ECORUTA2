@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecorutaapp.databinding.ItemCentroBinding
+import com.example.ecorutaapp.model.CentroReciclaje
+
 
 class CentroAdapter(
     private var lista: List<CentroReciclaje>,

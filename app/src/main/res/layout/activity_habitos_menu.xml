@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Espacio para imagen de hábitos -->
+        <ImageView
+            android:id="@+id/imgHabitos"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Imagen hábitos ecológicos"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Título -->
+        <TextView
+            android:text="Hábitos ecológicos"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Texto informativo -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adoptar hábitos ecológicos ayuda a reducir el impacto ambiental. Recuerda separar residuos, reutilizar materiales y ahorrar energía. ¡Cada acción cuenta!"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Ejemplo de hábitos -->
+        <CheckBox
+            android:id="@+id/cb_reutilizar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reutilizar bolsas y envases" />
+
+        <CheckBox
+            android:id="@+id/cb_ahorrar_agua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ahorrar agua y energía" />
+
+        <CheckBox
+            android:id="@+id/cb_separar_residuos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Separar residuos para reciclaje" />
+
+        <Button
+            android:id="@+id/btn_guardar_habitos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar hábitos"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>
+

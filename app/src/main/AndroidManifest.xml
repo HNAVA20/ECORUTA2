@@ -13,8 +13,23 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="false" />
 
+        <activity
+            android:name=".HabitosEcologicosActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".EducacionAmbientalActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CentrosReciclajeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainMenuActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

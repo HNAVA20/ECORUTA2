@@ -1,113 +1,160 @@
 package com.example.wear
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.wear.listeners.DataListener
+import com.example.wear.sensors.CompassManager
+import com.example.wear.viewmodel.WearViewModel
+import com.google.android.gms.location.*
+import com.google.android.gms.wearable.MessageClient
+import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.Wearable
-import java.nio.charset.StandardCharsets
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListener {
 
-    private lateinit var locationManager: LocationManager
-    private lateinit var sensorManager: SensorManager
-    private lateinit var txtUbicacion: TextView
+    private lateinit var listener: DataListener
+    private lateinit var compassManager: CompassManager
+    private lateinit var viewModel: WearViewModel
+    private var currentLocation: Location? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_direction)
 
-        txtUbicacion = findViewById(R.id.txtUbicacion)
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        // Referencias de UI
+        val arrowImageView = findViewById<ImageView>(R.id.arrowImageView)
+        val destinationTextView = findViewById<TextView>(R.id.destinationTextView)
+        val txtStatus = findViewById<TextView>(R.id.txtStatus)
+        val btnTestConexion = findViewById<Button>(R.id.btnTestConexion)
 
-        solicitarPermisosUbicacion()
-        iniciarAcelerometro()
-    }
+        // ViewModel y listener de datos
+        viewModel = ViewModelProvider(this)[WearViewModel::class.java]
+        listener = DataListener(viewModel)
+        Wearable.getDataClient(this).addListener(listener)
 
-    private fun solicitarPermisosUbicacion() {
-        val permisos = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
+        // Sensor de brújula
+        compassManager = CompassManager(this)
+        compassManager.start()
 
-        val permisosNoConcedidos = permisos.filter {
-            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        // Obtener ubicación actual
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(result: LocationResult) {
+                currentLocation = result.lastLocation
+                updateArrow(arrowImageView, destinationTextView)
+            }
         }
 
-        if (permisosNoConcedidos.isNotEmpty()) {
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { resultados ->
-                if (resultados.all { it.value }) {
-                    iniciarGPS()
-                } else {
-                    Toast.makeText(this, "Permisos de ubicación denegados", Toast.LENGTH_SHORT).show()
-                }
-            }.launch(permisosNoConcedidos.toTypedArray())
-        } else {
-            iniciarGPS()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            val request = LocationRequest.create().apply {
+                interval = 1000
+                fastestInterval = 500
+                priority = Priority.PRIORITY_HIGH_ACCURACY
+            }
+            fusedLocationClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
         }
-    }
 
-    private fun iniciarGPS() {
-        try {
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                5000L,
-                5f,
-                object : LocationListener {
-                    override fun onLocationChanged(location: Location) {
-                        val ubicacion = "Lat: ${location.latitude}, Lng: ${location.longitude}"
-                        txtUbicacion.text = ubicacion
-                        enviarMensajeAlTelefono(ubicacion)
+        // Si no hay destino recibido, usar uno por defecto
+        if (viewModel.destinoLat.value == null || viewModel.destinoLng.value == null) {
+            // Ejemplo: Centro de reciclaje "Centro 1" (ajusta los valores según tus datos reales)
+            viewModel.setDestino(21.5058, -104.8940, "Centro 1")
+        }
+
+        // Observa cambios en destino y azimuth
+        viewModel.destinoLat.observe(this, Observer { updateArrow(arrowImageView, destinationTextView) })
+        viewModel.destinoLng.observe(this, Observer { updateArrow(arrowImageView, destinationTextView) })
+        viewModel.destinoName.observe(this, Observer { updateArrow(arrowImageView, destinationTextView) })
+        compassManager.azimuth.observe(this, Observer { updateArrow(arrowImageView, destinationTextView) })
+
+        txtStatus.text = "Sin conexión"
+        txtStatus.setTextColor(getColor(android.R.color.holo_red_light))
+
+        // Actualiza el estado cuando se reciben datos
+        viewModel.destinoLat.observe(this, Observer {
+            txtStatus.text = "Conectado"
+            txtStatus.setTextColor(getColor(android.R.color.holo_green_light))
+        })
+        viewModel.destinoLng.observe(this, Observer {
+            txtStatus.text = "Conectado"
+            txtStatus.setTextColor(getColor(android.R.color.holo_green_light))
+        })
+        viewModel.destinoName.observe(this, Observer {
+            txtStatus.text = "Conectado"
+            txtStatus.setTextColor(getColor(android.R.color.holo_green_light))
+        })
+
+        btnTestConexion.setOnClickListener {
+            txtStatus.text = "Probando..."
+            txtStatus.setTextColor(getColor(android.R.color.holo_orange_light))
+            Wearable.getNodeClient(this).connectedNodes.addOnSuccessListener { nodes ->
+                if (nodes.isNotEmpty()) {
+                    val nodeId = nodes[0].id
+                    Wearable.getMessageClient(this).sendMessage(
+                        nodeId,
+                        "/test_conexion",
+                        "ping".toByteArray()
+                    ).addOnSuccessListener {
+                        txtStatus.text = "Test enviado"
+                    }.addOnFailureListener {
+                        txtStatus.text = "Error de conexión"
+                        txtStatus.setTextColor(getColor(android.R.color.holo_red_light))
                     }
+                } else {
+                    txtStatus.text = "No se encontró el móvil"
+                    txtStatus.setTextColor(getColor(android.R.color.holo_red_light))
                 }
-            )
-        } catch (e: SecurityException) {
-            e.printStackTrace()
-            Toast.makeText(this, "Error: permisos no concedidos", Toast.LENGTH_SHORT).show()
+            }
         }
+
+        Wearable.getMessageClient(this).addListener(this)
     }
 
-    private fun iniciarAcelerometro() {
-        val acelerometro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        if (acelerometro != null) {
-            sensorManager.registerListener(object : SensorEventListener {
-                override fun onSensorChanged(event: SensorEvent) {
-                    val x = event.values[0]
-                    val y = event.values[1]
-                    val z = event.values[2]
-                    val datos = "Accel X=$x Y=$y Z=$z"
-                    txtUbicacion.text = datos
-                    enviarMensajeAlTelefono(datos)
-                }
+    private fun updateArrow(arrowImageView: ImageView, destinationTextView: TextView) {
+        val lat = viewModel.destinoLat.value ?: return
+        val lng = viewModel.destinoLng.value ?: return
+        val name = viewModel.destinoName.value ?: ""
+        val azimuth = compassManager.azimuth.value ?: 0f
 
-                override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
-            }, acelerometro, SensorManager.SENSOR_DELAY_NORMAL)
-
-            Toast.makeText(this, "Acelerómetro activo ✅", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "No hay acelerómetro ❌", Toast.LENGTH_SHORT).show()
+        val destinoLocation = Location("").apply {
+            latitude = lat
+            longitude = lng
         }
+
+        val bearing = currentLocation?.bearingTo(destinoLocation) ?: 0f
+        val arrowRotation = (bearing - azimuth + 360) % 360
+
+        arrowImageView.rotation = arrowRotation
+        destinationTextView.text = "Ir a: $name"
     }
 
-    private fun enviarMensajeAlTelefono(mensaje: String) {
-        val cliente = Wearable.getMessageClient(this)
-        val nodos = Wearable.getNodeClient(this).connectedNodes
-        nodos.addOnSuccessListener { lista ->
-            for (nodo in lista) {
-                cliente.sendMessage(nodo.id, "/acelerometro", mensaje.toByteArray(StandardCharsets.UTF_8))
+    override fun onDestroy() {
+        super.onDestroy()
+        Wearable.getDataClient(this).removeListener(listener)
+        compassManager.stop()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+        Wearable.getMessageClient(this).removeListener(this)
+    }
+
+    override fun onMessageReceived(event: MessageEvent) {
+        val txtStatus = findViewById<TextView>(R.id.txtStatus)
+        if (event.path == "/test_conexion_respuesta") {
+            runOnUiThread {
+                txtStatus.text = "¡Conexión exitosa!"
+                txtStatus.setTextColor(getColor(android.R.color.holo_green_light))
             }
         }
     }

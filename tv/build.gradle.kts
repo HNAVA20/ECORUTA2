@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.wear"
+    namespace = "com.example.tv"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.wear"
-        minSdk = 28
+        applicationId = "com.example.tv"
+        minSdk = 21
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -38,32 +38,18 @@ android {
     }
 }
 
-val wearComposeVersion = "1.4.1"
-
 dependencies {
 
-    implementation(libs.play.services.wearable)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.foundation)
-
-    implementation ("com.google.android.gms:play-services-wearable:18.0.0")
-    implementation ("androidx.core:core-ktx:1.12.0")
-    implementation ("androidx.wear:wear:1.2.0")
-    implementation ("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.wear.compose:compose-navigation:$wearComposeVersion")
-    implementation("com.google.android.gms:play-services-wearable:18.0.0")
-    implementation ("androidx.compose.material:material:1.5.4")
-    implementation ("androidx.compose.material:material-icons-extended:1.5.4")
-
-    implementation(libs.androidx.wear.tooling.preview)
+    implementation(libs.androidx.tv.foundation)
+    implementation(libs.androidx.tv.material)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.runtime)
-    implementation(libs.play.services.location)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)

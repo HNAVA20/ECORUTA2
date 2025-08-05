@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "EcoRutaApp"
 include(":app")
 include(":wear")
+include(":tv")

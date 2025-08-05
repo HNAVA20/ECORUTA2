@@ -36,4 +36,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_habitos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hábitos ecológicos"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btn_education"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Educación ambiental"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btn_sync_watch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sincronizar con reloj"
+        android:layout_marginTop="12dp" />
 </LinearLayout>

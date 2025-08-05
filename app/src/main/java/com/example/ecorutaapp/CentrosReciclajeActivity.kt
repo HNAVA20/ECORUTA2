@@ -1,18 +1,15 @@
 package com.example.ecorutaapp
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ecorutaapp.model.CentroReciclaje
 import com.example.ecorutaapp.utils.LocationSender
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,34 +18,27 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.wearable.MessageClient
-import com.google.android.gms.wearable.MessageEvent
-import com.google.android.gms.wearable.Wearable
 import org.json.JSONArray
 
-class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMessageReceivedListener {
-
+class CentrosReciclajeActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var centros: List<CentroReciclaje>
     private lateinit var adapter: CentroAdapter
-    private lateinit var txtRecibido: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_centros_reciclaje)
 
-        val mapFragment =
-            supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         val recyclerView = findViewById<RecyclerView>(R.id.centrosRecyclerView)
         val buscador = findViewById<EditText>(R.id.buscadorEditText)
-        txtRecibido = findViewById(R.id.txtRecibido)
 
         centros = cargarCentrosDesdeJson()
         adapter = CentroAdapter(centros) { centro ->
             moverMapaACentro(centro)
-            LocationSender.enviarDestinoEnTiempoReal(this, centro.lat, centro.lng, centro.nombre)
+            LocationSender.enviarDestinoAlReloj(this, centro.lat, centro.lng, centro.nombre)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -59,26 +49,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
             val filtrados = centros.filter { c -> c.materiales.lowercase().contains(filtro) }
             adapter.actualizarLista(filtrados)
         }
-
-        findViewById<Button>(R.id.btn_habitos).setOnClickListener {
-            // Centro 1
-            LocationSender.enviarDestinoEnTiempoReal(this, 21.5058, -104.8940, "Centro 1")
-        }
-        findViewById<Button>(R.id.btn_education).setOnClickListener {
-            // Centro 2
-            LocationSender.enviarDestinoEnTiempoReal(this, 21.5123, -104.9001, "Centro 2")
-        }
-        findViewById<Button>(R.id.btn_sync_watch).setOnClickListener {
-            // Centro 3
-            LocationSender.enviarDestinoEnTiempoReal(this, -33.4569, -70.6483, "Centro Sur")
-        }
-
-        Wearable.getMessageClient(this).addListener(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Wearable.getMessageClient(this).removeListener(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -121,23 +91,5 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
         }
         return centros
     }
-
-    override fun onMessageReceived(event: MessageEvent) {
-        if (event.path == "/acelerometro") {
-            val mensaje = String(event.data)
-            runOnUiThread {
-                txtRecibido.text = "Desde reloj: $mensaje"
-            }
-        } else if (event.path == "/test_conexion") {
-            runOnUiThread {
-                txtRecibido.text = "¡Conexión con reloj exitosa!"
-            }
-            // Opcional: responder al reloj
-            Wearable.getMessageClient(this).sendMessage(
-                event.sourceNodeId,
-                "/test_conexion_respuesta",
-                "pong".toByteArray()
-            )
-        }
-    }
 }
+
