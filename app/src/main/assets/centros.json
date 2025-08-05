@@ -1,0 +1,20 @@
+[
+  {
+    "nombre": "Centro Tepic Norte",
+    "lat": 21.5145,
+    "lng": -104.8942,
+    "materiales": "Plástico, Cartón, Electrónicos"
+  },
+  {
+    "nombre": "Punto Xalisco Centro",
+    "lat": 21.4725,
+    "lng": -104.8978,
+    "materiales": "Vidrio, Pilas, Metales"
+  },
+  {
+    "nombre": "Eco Punto Las Flores",
+    "lat": 21.4982,
+    "lng": -104.8789,
+    "materiales": "Papel, Aceite usado"
+  }
+]

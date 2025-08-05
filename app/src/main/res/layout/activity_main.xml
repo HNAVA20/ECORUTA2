@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/buscadorEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Buscar material (ej. plástico)"
+        android:padding="12dp"
+        android:background="@android:color/darker_gray"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/txtRecibido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Esperando datos del reloj..."
+        android:padding="12dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/centrosRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="8dp"
+        android:scrollbars="vertical"/>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>
