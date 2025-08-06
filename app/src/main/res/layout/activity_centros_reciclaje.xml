@@ -6,12 +6,30 @@
     android:background="@android:color/background_light">
 
     <!-- Espacio para imagen -->
+
     <ImageView
         android:id="@+id/imgCentros"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:contentDescription="Imagen centros de reciclaje"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center"
+        android:contentDescription="Imagen centros de reciclaje,"
+        android:src="@drawable/centros" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aquí podrás encontrar centros de recolección cercanos según el tipo de reciclaje que quieras hacer. Usa la barra de búsqueda de abajo para filtrar y localizar fácilmente los centros más adecuados para ti."
+        android:textSize="16sp"
+        android:textColor="@color/textDark"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¡Cuidar el planeta está en tus manos!"
+        android:textSize="16sp"
+        android:textColor="@color/textDark"
         android:layout_marginBottom="16dp" />
 
     <EditText

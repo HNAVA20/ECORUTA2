@@ -4,4 +4,10 @@
     <color name="black">#000000</color>
     <color name="purple_500">#6200EE</color>
     <color name="teal_200">#03DAC5</color>
+    <color name="colorPrimary">#4CAF50</color> <!-- Verde Eco -->
+    <color name="colorPrimaryDark">#388E3C</color>
+    <color name="colorAccent">#CDDC39</color> <!-- Lima -->
+    <color name="backgroundLight">#F1F8E9</color> <!-- Verde muy claro -->
+    <color name="textDark">#212121</color>
+    <color name="textLight">#FFFFFF</color>
 </resources>

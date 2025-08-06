@@ -35,7 +35,7 @@
         <ImageView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/habits_eco"
             android:contentDescription="Ilustración de hábitos ecológicos"
             android:layout_marginBottom="16dp" />
 
@@ -65,7 +65,7 @@
         <!-- Botones -->
         <Button
             android:id="@+id/btn_guardar_habitos"
-            style=""
+            style="@style/EcoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar hábitos" />
@@ -73,7 +73,7 @@
 
         <Button
             android:id="@+id/btn_volver"
-            style=""
+            style="@style/EcoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Volver al menú" />

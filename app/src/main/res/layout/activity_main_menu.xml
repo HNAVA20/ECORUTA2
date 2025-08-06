@@ -12,12 +12,39 @@
         android:id="@+id/imgMain"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/ic_recycle_logo"
         android:contentDescription="Imagen principal"
         android:layout_marginBottom="24dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/EcoTitle"
+        android:text="EcoRuta" />
+
+    <!-- Descripción de la app -->
+    <TextView
+        android:id="@+id/txt_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EcoRuta es una aplicación móvil diseñada para fomentar la cultura del reciclaje de forma interactiva, accesible y educativa. Aprovecha el GPS, la sincronización con Wear OS y pantallas inteligentes para facilitar la ubicación de centros de reciclaje, promover hábitos ecológicos y brindar educación ambiental."
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"
+        android:lineSpacingExtra="6dp" />
+
+    <!-- Imagen decorativa inferior -->
+    <ImageView
+        android:id="@+id/img_banner"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@drawable/ecoruta_banner"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Banner reciclaje" />
+
     <Button
         android:id="@+id/btn_habitos"
+        style="@style/EcoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hábitos ecológicos"
@@ -25,6 +52,7 @@
 
     <Button
         android:id="@+id/btn_centros"
+        style="@style/EcoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Centros de reciclaje" />
@@ -32,6 +60,7 @@
 
     <Button
         android:id="@+id/btn_education"
+        style="@style/EcoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Educación ambiental"
@@ -39,6 +68,7 @@
 
     <Button
         android:id="@+id/btn_sync_watch"
+        style="@style/EcoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sincronizar con reloj"

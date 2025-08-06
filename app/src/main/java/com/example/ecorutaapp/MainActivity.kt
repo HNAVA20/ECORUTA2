@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
         adapter = CentroAdapter(centros) { centro ->
             moverMapaACentro(centro)
             LocationSender.enviarDestinoEnTiempoReal(this, centro.lat, centro.lng, centro.nombre)
+            txtRecibido.text = "Destino enviado al reloj: ${centro.nombre}"
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -60,6 +61,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
             adapter.actualizarLista(filtrados)
         }
 
+        // Elimina listeners de envío en la pantalla principal
+        /*
         findViewById<Button>(R.id.btn_habitos).setOnClickListener {
             // Centro 1
             LocationSender.enviarDestinoEnTiempoReal(this, 21.5058, -104.8940, "Centro 1")
@@ -72,6 +75,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
             // Centro 3
             LocationSender.enviarDestinoEnTiempoReal(this, -33.4569, -70.6483, "Centro Sur")
         }
+        */
 
         Wearable.getMessageClient(this).addListener(this)
     }
@@ -119,6 +123,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
                 )
             )
         }
+        // Centro adicional muy al sur (ejemplo: Santiago, Chile)
+        centros.add(
+            CentroReciclaje(
+                "Centro Sur",
+                -33.4569,
+                -70.6483,
+                "Plástico, Papel, Vidrio"
+            )
+        )
         return centros
     }
 

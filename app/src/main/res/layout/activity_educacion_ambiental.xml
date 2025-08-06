@@ -35,7 +35,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:src="@android:color/darker_gray"
+            android:src="@drawable/education_banner"
             android:scaleType="centerCrop"
             android:layout_marginBottom="16dp"
             android:contentDescription="Banner educativo" />
@@ -54,6 +54,7 @@
         <!-- Botón -->
         <Button
             android:id="@+id/btn_volver"
+            style="@style/EcoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Volver al menú" />
