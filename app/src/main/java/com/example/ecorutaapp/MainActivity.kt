@@ -61,22 +61,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
             adapter.actualizarLista(filtrados)
         }
 
-        // Elimina listeners de envío en la pantalla principal
-        /*
-        findViewById<Button>(R.id.btn_habitos).setOnClickListener {
-            // Centro 1
-            LocationSender.enviarDestinoEnTiempoReal(this, 21.5058, -104.8940, "Centro 1")
-        }
-        findViewById<Button>(R.id.btn_education).setOnClickListener {
-            // Centro 2
-            LocationSender.enviarDestinoEnTiempoReal(this, 21.5123, -104.9001, "Centro 2")
-        }
-        findViewById<Button>(R.id.btn_sync_watch).setOnClickListener {
-            // Centro 3
-            LocationSender.enviarDestinoEnTiempoReal(this, -33.4569, -70.6483, "Centro Sur")
-        }
-        */
-
         Wearable.getMessageClient(this).addListener(this)
     }
 
@@ -123,15 +107,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MessageClient.OnMe
                 )
             )
         }
-        // Centro adicional muy al sur (ejemplo: Santiago, Chile)
-        centros.add(
-            CentroReciclaje(
-                "Centro Sur",
-                -33.4569,
-                -70.6483,
-                "Plástico, Papel, Vidrio"
-            )
-        )
+
         return centros
     }
 

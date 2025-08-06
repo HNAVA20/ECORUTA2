@@ -1,77 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:gravity="center_horizontal"
+    android:fillViewport="true"
     android:background="@android:color/background_light">
 
-    <!-- Espacio para imagen principal -->
-    <ImageView
-        android:id="@+id/imgMain"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_recycle_logo"
-        android:contentDescription="Imagen principal"
-        android:layout_marginBottom="24dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/EcoTitle"
-        android:text="EcoRuta" />
-
-    <!-- Descripción de la app -->
-    <TextView
-        android:id="@+id/txt_description"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="EcoRuta es una aplicación móvil diseñada para fomentar la cultura del reciclaje de forma interactiva, accesible y educativa. Aprovecha el GPS, la sincronización con Wear OS y pantallas inteligentes para facilitar la ubicación de centros de reciclaje, promover hábitos ecológicos y brindar educación ambiental."
-        android:textSize="16sp"
-        android:layout_marginTop="12dp"
-        android:lineSpacingExtra="6dp" />
+        android:padding="24dp"
+        android:gravity="center_horizontal">
 
-    <!-- Imagen decorativa inferior -->
-    <ImageView
-        android:id="@+id/img_banner"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:src="@drawable/ecoruta_banner"
-        android:scaleType="centerCrop"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Banner reciclaje" />
+        <!-- Espacio para imagen principal -->
+        <ImageView
+            android:id="@+id/imgMain"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_recycle_logo"
+            android:contentDescription="Imagen principal"
+            android:layout_marginBottom="24dp" />
 
-    <Button
-        android:id="@+id/btn_habitos"
-        style="@style/EcoButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hábitos ecológicos"
-        android:layout_marginBottom="16dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/EcoTitle"
+            android:text="EcoRuta" />
 
-    <Button
-        android:id="@+id/btn_centros"
-        style="@style/EcoButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Centros de reciclaje" />
+        <!-- Descripción de la app -->
 
+        <!-- Imagen decorativa inferior -->
+        <TextView
+            android:id="@+id/txt_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="6dp"
+            android:text="EcoRuta es una aplicación móvil diseñada para fomentar la cultura del reciclaje de forma interactiva, accesible y educativa. Aprovecha el GPS, la sincronización con Wear OS y pantallas inteligentes para facilitar la ubicación de centros de reciclaje, promover hábitos ecológicos y brindar educación ambiental."
+            android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/btn_education"
-        style="@style/EcoButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Educación ambiental"
-        android:layout_marginTop="12dp" />
+        <ImageView
+            android:id="@+id/img_banner"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@drawable/ecoruta_banner"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Banner reciclaje" />
 
-    <Button
-        android:id="@+id/btn_sync_watch"
-        style="@style/EcoButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sincronizar con reloj"
-        android:layout_marginTop="12dp" />
+        <Button
+            android:id="@+id/btn_habitos"
+            style="@style/EcoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hábitos ecológicos"
+            android:layout_marginBottom="16dp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_centros"
+            style="@style/EcoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Centros de reciclaje" />
+
+        <Button
+            android:id="@+id/btn_education"
+            style="@style/EcoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Educación ambiental"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btn_sync_watch"
+            style="@style/EcoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sincronizar con reloj"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/txtSyncStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sin conexión"
+            android:textColor="@color/textDark"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</ScrollView>

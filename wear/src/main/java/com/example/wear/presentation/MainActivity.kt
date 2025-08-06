@@ -80,6 +80,21 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         viewModel.destinoName.observe(this, Observer { updateArrow(arrowImageView, destinationTextView) })
         compassManager.azimuth.observe(this, Observer { updateArrow(arrowImageView, destinationTextView) })
 
+        // Observa el nombre del destino y actualiza el TextView
+        viewModel.destinoName.observe(this) { nombre ->
+            findViewById<TextView>(R.id.destinationTextView).text = nombre
+        }
+
+        // Observa el estado de la conexión Bluetooth
+        val bluetoothAdapter = android.bluetooth.BluetoothAdapter.getDefaultAdapter()
+        if (bluetoothAdapter != null && bluetoothAdapter.isEnabled) {
+            txtStatus.text = "Bluetooth activo"
+            txtStatus.setTextColor(android.graphics.Color.GREEN)
+        } else {
+            txtStatus.text = "Bluetooth apagado"
+            txtStatus.setTextColor(android.graphics.Color.RED)
+        }
+
         txtStatus.text = "Sin conexión"
         txtStatus.setTextColor(getColor(android.R.color.holo_red_light))
 

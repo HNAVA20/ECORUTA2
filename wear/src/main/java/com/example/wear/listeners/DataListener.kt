@@ -21,6 +21,7 @@ class DataListener(
                 val lng = dataMap.getDouble("lng")
                 val name = dataMap.getString("name") ?: ""
 
+                Log.d("EcoRutaWear", "Destino recibido: $name ($lat, $lng)")
                 viewModel.setDestino(lat, lng, name)
             }
         }

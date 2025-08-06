@@ -38,7 +38,9 @@ class CentrosReciclajeActivity : AppCompatActivity(), OnMapReadyCallback {
         centros = cargarCentrosDesdeJson()
         adapter = CentroAdapter(centros) { centro ->
             moverMapaACentro(centro)
+            android.util.Log.d("EcoRutaApp", "Enviando destino al Wear: ${centro.nombre} (${centro.lat}, ${centro.lng})")
             LocationSender.enviarDestinoAlReloj(this, centro.lat, centro.lng, centro.nombre)
+            android.widget.Toast.makeText(this, "Destino enviado: ${centro.nombre}", android.widget.Toast.LENGTH_SHORT).show()
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -92,4 +94,3 @@ class CentrosReciclajeActivity : AppCompatActivity(), OnMapReadyCallback {
         return centros
     }
 }
-
